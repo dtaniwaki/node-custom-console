@@ -26,19 +26,36 @@ console.info('foo', 'bar')
 You can specify the debug targets.
 
 ```javascript
-process.env.NODE_DEBUG='module2'
+process.env.NODE_DEBUG='module1'
+
+var console = require('node-custom-console')('module1');
+console.log('foo', 'bar')
+// > 2014-10-02T06:15:16.830Z [info] 44999 module1: foo bar
+
+var console = require('node-custom-console')('module2');
+console.info('foo', 'bar')
+// No output
+```
+
+You can also set multiple targets with `module1,module2` and all with `*`.
+
+### Debug Level
+
+You can specify the debug levels.
+
+```javascript
+process.env.NODE_DEBUG='module1:info'
 
 var console = require('node-custom-console')('module1');
 console.log('foo', 'bar')
 // No output
 
-var console = require('node-custom-console')('module2');
 console.info('foo', 'bar')
-// > 2014-10-02T06:15:16.830Z [info] 44999 module2: foo bar
+// > 2014-10-02T06:15:16.830Z [info] 44999 module1: foo bar
 ```
 
-You can also set multiple targets with `module1,module2` and all with `*`.
-
+Here is the priority order of available levels.
+`log` < `info` < `warn` < `error`
 
 ## Contributing
 
