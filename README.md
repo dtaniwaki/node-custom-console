@@ -1,12 +1,56 @@
 # node-custom-console
 
-Custom console for Node.js log.
-
 [![Build Status][build-image]][build-link]
 [![Coverage Status][coverage-image]][coverage-link]
 [![dependency Status][dep-image]][dep-link]
 [![devDependency Status][dev-dep-image]][dev-dep-link]
 
+Custom console for Node.js log.
+
+## Usage
+
+Just replace your console with this module.
+
+```javascript
+var console = require('node-custom-console')('module1');
+console.log('foo', 'bar')
+// > 2014-10-02T06:15:16.830Z [log] 44999 module1: foo bar
+
+var console = require('node-custom-console')('module2');
+console.info('foo', 'bar')
+// > 2014-10-02T06:15:16.830Z [info] 44999 module2: foo bar
+```
+
+### Debug Target
+
+You can specify the debug targets.
+
+```javascript
+process.env.NODE_DEBUG='module2'
+
+var console = require('node-custom-console')('module1');
+console.log('foo', 'bar')
+// No output
+
+var console = require('node-custom-console')('module2');
+console.info('foo', 'bar')
+// > 2014-10-02T06:15:16.830Z [info] 44999 module2: foo bar
+```
+
+You can also set multiple targets with `module1,module2` and all with `*`.
+
+
+## Contributing
+
+1. Fork it
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create new [Pull Request](../../pull/new/master)
+
+## Copyright
+
+Copyright (c) 2014 Daisuke Taniwaki. See [LICENSE](LICENSE) for details.
 
 
 [build-image]: https://secure.travis-ci.org/dtaniwaki/node-custom-console.svg
