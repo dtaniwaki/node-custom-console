@@ -20,34 +20,31 @@ class CustomConsole
 
   init: ->
     debug = process.env.NODE_DEBUG || ''
-    @enabled = (new RegExp("\\*(\\:(.+))?|\\b#{@tag}(\\:(.+))?\\b")).test debug
-    match = RegExp.$4 || RegExp.$2
-    @level = CustomConsole.getDebugLevel(match)
+    match = debug.match new RegExp("\\*(\\:(.+))?|\\b#{@tag}(\\:(.+))?\\b")
+    @enabled = !!match
+    match ||= []
+    @level = CustomConsole.getDebugLevel(match[2] || match[4])
 
-  output: (severity, tag) ->
-    return false unless @enabled
-    CustomConsole.getDebugLevel(severity) >= @level
-
-  prefix: (severity, tag) ->
+  prefix: (tag, severity) ->
     time = (new Date()).toISOString()
     "#{time} [#{severity}] #{process.pid} #{tag}:"
 
-  postfix: (severity, tag) ->
+  postfix: (tag, severity) ->
     ''
 
-  template = (name) ->
+  template = (severity) ->
     (args...) ->
       _args = []
 
-      prefix = @prefix(name, @tag)
+      prefix = @prefix(@tag, severity)
       _args.push prefix if prefix
 
       _args = _args.concat args
 
-      postfix = @postfix(name, @tag)
+      postfix = @postfix(@tag, severity)
       _args.push postfix if postfix
 
-      @console[name] _args... if @output(name, @tag)
+      @console[severity] _args... if @enabled && CustomConsole.getDebugLevel(severity) >= @level
 
   for name in ['log', 'info', 'warn', 'error']
     @::[name] = template(name)
