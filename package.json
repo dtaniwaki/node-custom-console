@@ -1,0 +1,32 @@
+{
+  "name": "node-custom-console",
+  "version": "0.0.1",
+  "description": "Custom console for nodejs",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "gulp build",
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "node-console-logger"
+  },
+  "keywords": [
+    "node.js",
+    "console",
+    "logger"
+  ],
+  "author": "dtaniwaki",
+  "license": "MIT",
+  "devDependencies": {
+    "blanket": "^1.1.6",
+    "chai": "^1.9.2",
+    "coffee-script": "^1.8.0",
+    "gulp": "^3.8.8",
+    "gulp-coffee": "^2.2.0",
+    "gulp-coffeelint": "^0.4.0",
+    "gulp-mocha": "^1.1.1",
+    "gulp-sourcemaps": "^1.2.4",
+    "sinon-chai": "^2.6.0"
+  }
+}
