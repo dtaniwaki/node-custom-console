@@ -1,24 +1,32 @@
 assert = require 'assert'
 
-debugLevels =
-  log: 1
-  info: 2
-  warn: 3
-  error: 4
-
 class CustomConsole
+  @getDebugLevel = (s) ->
+    return 0 unless s
+    switch s.toLowerCase()
+      when 'log' then 1
+      when 'info' then 2
+      when 'warn' then 3
+      when 'error' then 4
+      else 0
+
   constructor: (tag, options) ->
     assert tag, 'tag is required'
 
     @console = options.console || require 'console'
     @tag = tag
 
+    @init()
+
+  init: ->
+    debug = process.env.NODE_DEBUG || ''
+    @enabled = (new RegExp("\\*(\\:(.+))?|\\b#{@tag}(\\:(.+))?\\b")).test debug
+    match = RegExp.$4 || RegExp.$2
+    @level = CustomConsole.getDebugLevel(match)
+
   output: (severity, tag) ->
-    debug = process.env.NODE_DEBUG
-    if !tag || (debug && (debug == '*' || (new RegExp("\\b#{tag}\\b")).test debug))
-      level = process.env.NODE_DEBUG_LEVEL
-      return !level || debugLevels[severity] >= debugLevels[level.toLowerCase()]
-    false
+    return false unless @enabled
+    CustomConsole.getDebugLevel(severity) >= @level
 
   prefix: (severity, tag) ->
     time = (new Date()).toISOString()

@@ -11,12 +11,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "node-console-logger"
+    "url": "node-custom-console"
   },
   "keywords": [
     "node.js",
     "console",
-    "logger"
+    "custom"
   ],
   "author": "dtaniwaki",
   "license": "MIT",

@@ -13,7 +13,6 @@ describe 'console', ->
   beforeEach ->
     @sandbox = sinon.sandbox.create()
     process.env.NODE_DEBUG ||= ''
-    process.env.NODE_DEBUG_LEVEL ||= ''
 
   afterEach ->
     @sandbox.restore()
@@ -39,11 +38,11 @@ describe 'console', ->
         describe "output condition", ->
           beforeEach ->
             @spy = @sandbox.spy Console, name
-            @console = utilsConsole('x', console: Console)
 
           describe "NODE_DEBUG = 'x'", ->
             beforeEach ->
               @sandbox.stub process.env, 'NODE_DEBUG', 'x'
+              @console = utilsConsole('x', console: Console)
 
             it "writes the #{name} messages", ->
               @console[name] 'foo', 'bar'
@@ -52,6 +51,7 @@ describe 'console', ->
           describe "NODE_DEBUG = '*'", ->
             beforeEach ->
               @sandbox.stub process.env, 'NODE_DEBUG', '*'
+              @console = utilsConsole('x', console: Console)
 
             it "writes the #{name} messages", ->
               @console[name] 'foo', 'bar'
@@ -60,6 +60,7 @@ describe 'console', ->
           describe "NODE_DEBUG = 'other'", ->
             beforeEach ->
               @sandbox.stub process.env, 'NODE_DEBUG', 'other'
+              @console = utilsConsole('x', console: Console)
 
             it "does not write the #{name} messages", ->
               @console[name] 'foo', 'bar'
@@ -67,14 +68,13 @@ describe 'console', ->
 
     describe "debug level", ->
       beforeEach ->
-        @console = utilsConsole('x', console: Console)
         @now = new Date('2014-10-02T06:15:16.830Z')
         @sandbox.useFakeTimers(@now.valueOf())
 
       describe "specific level", ->
         beforeEach ->
-          @sandbox.stub process.env, 'NODE_DEBUG', 'x'
-          @sandbox.stub process.env, 'NODE_DEBUG_LEVEL', 'info'
+          @sandbox.stub process.env, 'NODE_DEBUG', 'x:info'
+          @console = utilsConsole('x', console: Console)
 
         it "writes the error messages", ->
           @spy = @sandbox.spy Console, 'error'
@@ -99,6 +99,7 @@ describe 'console', ->
       describe "any level", ->
         beforeEach ->
           @sandbox.stub process.env, 'NODE_DEBUG', 'x'
+          @console = utilsConsole('x', console: Console)
 
         it "writes the error messages", ->
           @spy = @sandbox.spy Console, 'error'
@@ -131,3 +132,36 @@ describe 'console', ->
         it "delegates the #{name} call", ->
           @console[name] 'foo', 'bar'
           expect(@spy).to.have.been.calledWith('foo', 'bar')
+
+  describe "\#init", ->
+    beforeEach ->
+      @sandbox.stub process.env, 'NODE_DEBUG', 'chai'
+      @console = utilsConsole('chai', console: Console)
+
+    it 'initializes the debug settings', ->
+      expect(@console.enabled).to.be.eq true
+      expect(@console.level).to.be.eq 0
+
+    describe 'debug target change', ->
+      beforeEach ->
+        @sandbox.stub process.env, 'NODE_DEBUG', 'foo'
+
+      it 'reinitializes the debug settings', ->
+        expect(@console.enabled).to.be.eq true
+        expect(@console.level).to.be.eq 0
+
+        @console.init()
+        expect(@console.enabled).to.be.eq false
+        expect(@console.level).to.be.eq 0
+
+    describe 'debug level change', ->
+      beforeEach ->
+        @sandbox.stub process.env, 'NODE_DEBUG', 'chai:log'
+
+      it 'reinitializes the debug settings', ->
+        expect(@console.enabled).to.be.eq true
+        expect(@console.level).to.be.eq 0
+
+        @console.init()
+        expect(@console.enabled).to.be.eq true
+        expect(@console.level).to.be.eq 1
