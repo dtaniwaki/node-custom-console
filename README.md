@@ -1,5 +1,6 @@
 # node-custom-console
 
+[![NPM version][npm-image]][npm-link]
 [![Build Status][build-image]][build-link]
 [![Coverage Status][coverage-image]][coverage-link]
 [![dependency Status][dep-image]][dep-link]
@@ -84,6 +85,8 @@ console.info('foo', 'bar')
 Copyright (c) 2014 Daisuke Taniwaki. See [LICENSE](LICENSE) for details.
 
 
+[npm-image]: https://badge.fury.io/js/node-custom-console.svg
+[npm-link]: http://badge.fury.io/js/node-custom-console
 [build-image]: https://secure.travis-ci.org/dtaniwaki/node-custom-console.svg
 [build-link]:  http://travis-ci.org/dtaniwaki/node-custom-console
 [coverage-image]: https://img.shields.io/coveralls/dtaniwaki/node-custom-console.svg
