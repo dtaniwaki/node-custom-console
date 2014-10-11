@@ -165,3 +165,21 @@ describe 'console', ->
         @console.init()
         expect(@console.enabled).to.be.eq true
         expect(@console.level).to.be.eq 1
+
+  describe "\#prefix", ->
+    beforeEach ->
+      @spy = @sandbox.spy()
+      @console = utilsConsole('chai', console: Console, prefix: @spy)
+
+    it "uses user defined prefix", ->
+      @console.info 'foo', 'bar'
+      expect(@spy).to.have.been.calledWith('chai', 'info')
+
+  describe "\#postfix", ->
+    beforeEach ->
+      @spy = @sandbox.spy()
+      @console = utilsConsole('chai', console: Console, postfix: @spy)
+
+    it "uses user defined postfix", ->
+      @console.info 'foo', 'bar'
+      expect(@spy).to.have.been.calledWith('chai', 'info')

@@ -18,6 +18,9 @@ class CustomConsole
 
     @init()
 
+    @prefix = options.prefix if options.prefix
+    @postfix = options.postfix if options.postfix
+
   init: ->
     debug = process.env.NODE_DEBUG || ''
     match = debug.match new RegExp("\\*(\\:(.+))?|\\b#{@tag}(\\:(.+))?\\b")
