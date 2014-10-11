@@ -1,5 +1,7 @@
 assert = require 'assert'
 
+# auto-commit-test
+
 class CustomConsole
   @getDebugLevel = (s) ->
     return 0 unless s
