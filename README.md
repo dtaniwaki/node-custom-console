@@ -1,4 +1,4 @@
-# node-console-logger
+# node-custom-console
 
 Custom console for Node.js log.
 
@@ -9,11 +9,11 @@ Custom console for Node.js log.
 
 
 
-[build-image]: https://secure.travis-ci.org/kaizenplatform/node-console-logger.svg
-[build-link]:  http://travis-ci.org/kaizenplatform/node-console-logger
-[coverage-image]: https://img.shields.io/coveralls/kaizenplatform/node-console-logger.svg
-[coverage-link]: https://coveralls.io/r/kaizenplatform/node-console-logger
-[dep-image]: https://david-dm.org/kaizenplatform/node-console-logger/status.svg
-[dep-link]: https://david-dm.org/kaizenplatform/node-console-logger#info=dependencies
-[dev-dep-image]: https://david-dm.org/kaizenplatform/node-console-logger/dev-status.svg
-[dev-dep-link]: https://david-dm.org/kaizenplatform/node-console-logger#info=devDependencies
+[build-image]: https://secure.travis-ci.org/dtaniwaki/node-custom-console.svg
+[build-link]:  http://travis-ci.org/dtaniwaki/node-custom-console
+[coverage-image]: https://img.shields.io/coveralls/dtaniwaki/node-custom-console.svg
+[coverage-link]: https://coveralls.io/r/dtaniwaki/node-custom-console
+[dep-image]: https://david-dm.org/dtaniwaki/node-custom-console/status.svg
+[dep-link]: https://david-dm.org/dtaniwaki/node-custom-console#info=dependencies
+[dev-dep-image]: https://david-dm.org/dtaniwaki/node-custom-console/dev-status.svg
+[dev-dep-link]: https://david-dm.org/dtaniwaki/node-custom-console#info=devDependencies
