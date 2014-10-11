@@ -1,6 +1,6 @@
 {
   "name": "node-custom-console",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Custom console for nodejs",
   "main": "lib/index.js",
   "scripts": {
