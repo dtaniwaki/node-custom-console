@@ -125,7 +125,6 @@ describe 'console', ->
       describe "\##{_name}", ->
         name = _name
         beforeEach ->
-          console.log name
           @spy = @sandbox.spy Console, name
           @console = utilsConsole('chai', console: Console)
 
