@@ -11,7 +11,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "node-custom-console"
+    "url": "git://github.com/dtaniwaki/node-custom-console.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dtaniwaki/node-custom-console/issues"
   },
   "keywords": [
     "node.js",
