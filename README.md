@@ -57,6 +57,20 @@ console.info('foo', 'bar')
 Here is the priority order of available levels.
 `log` < `info` < `warn` < `error`
 
+### Custom prefix / postfix
+
+Furthermore, you can use custom prefix/postfix as below.
+
+```javascript
+var console = require('node-custom-console')('module1', prefix: function(tag, severity){
+    return tag + "-" + severity;
+  }, postfix: function(tag, severity){
+    return ";"
+  });
+console.info('foo', 'bar')
+// > chai-info foo bar;
+```
+
 ## Contributing
 
 1. Fork it
