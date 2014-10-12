@@ -18,8 +18,7 @@ class CustomConsole
 
     @init()
 
-    @prefix = options.prefix if options.prefix
-    @postfix = options.postfix if options.postfix
+    @formatter = options.formatter if options.formatter
 
   init: ->
     debug = process.env.NODE_DEBUG || ''
@@ -28,25 +27,15 @@ class CustomConsole
     match ||= []
     @level = CustomConsole.getDebugLevel(match[2] || match[4])
 
-  prefix: (tag, severity) ->
+  formatter: (args...) ->
     time = (new Date()).toISOString()
-    "#{time} [#{severity}] #{process.pid} #{tag}:"
-
-  postfix: (tag, severity) ->
-    ''
+    ["#{time} [#{@severity}] #{process.pid} #{@tag}:"].concat args...
 
   template = (severity) ->
     (args...) ->
-      _args = []
-
-      prefix = @prefix(@tag, severity)
-      _args.push prefix if prefix
-
-      _args = _args.concat args
-
-      postfix = @postfix(@tag, severity)
-      _args.push postfix if postfix
-
+      _args = do (@tag, @formatter) ->
+        @severity = severity
+        @formatter args...
       @console[severity] _args... if @enabled && CustomConsole.getDebugLevel(severity) >= @level
 
   for name in ['log', 'info', 'warn', 'error']

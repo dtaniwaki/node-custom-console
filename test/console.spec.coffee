@@ -166,20 +166,17 @@ describe 'console', ->
         expect(@console.enabled).to.be.eq true
         expect(@console.level).to.be.eq 1
 
-  describe "\#prefix", ->
+  describe "\#formatter", ->
     beforeEach ->
-      @spy = @sandbox.spy()
-      @console = utilsConsole('chai', console: Console, prefix: @spy)
+      formatter = (args...) ->
+        _args = ["#{this.tag}-#{this.severity}"]
+        _args = _args.concat args
+        _args.push ';'
+        _args
+      @console = utilsConsole('chai', console: Console, formatter: formatter)
 
-    it "uses user defined prefix", ->
+    it "uses user defined formatter", ->
+      @spy = @sandbox.spy Console, 'info'
       @console.info 'foo', 'bar'
-      expect(@spy).to.have.been.calledWith('chai', 'info')
+      expect(@spy).to.have.been.calledWith("chai-info", 'foo', 'bar', ';')
 
-  describe "\#postfix", ->
-    beforeEach ->
-      @spy = @sandbox.spy()
-      @console = utilsConsole('chai', console: Console, postfix: @spy)
-
-    it "uses user defined postfix", ->
-      @console.info 'foo', 'bar'
-      expect(@spy).to.have.been.calledWith('chai', 'info')
