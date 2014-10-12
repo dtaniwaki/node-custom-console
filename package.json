@@ -2,7 +2,7 @@
   "name": "node-custom-console",
   "version": "0.2.1",
   "description": "Custom console for nodejs",
-  "main": "lib/index.js",
+  "main": "lib/console.js",
   "scripts": {
     "build": "gulp build",
     "test": "gulp test",
