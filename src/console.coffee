@@ -33,10 +33,11 @@ class CustomConsole
 
   template = (severity) ->
     (args...) ->
+      return unless @enabled && CustomConsole.getDebugLevel(severity) >= @level
       _args = do (@tag, @formatter) ->
         @severity = severity
         @formatter args...
-      @console[severity] _args... if @enabled && CustomConsole.getDebugLevel(severity) >= @level
+      @console[severity] _args...
 
   for name in ['log', 'info', 'warn', 'error']
     @::[name] = template(name)
