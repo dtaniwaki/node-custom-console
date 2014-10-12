@@ -11,6 +11,7 @@ class CustomConsole
       else 0
 
   constructor: (tag, options) ->
+    options = options || {}
     assert tag, 'tag is required'
 
     @console = options.console || require 'console'
