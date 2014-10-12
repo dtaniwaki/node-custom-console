@@ -58,18 +58,20 @@ console.info('foo', 'bar')
 Here is the priority order of available levels.
 `log` < `info` < `warn` < `error`
 
-### Custom prefix / postfix
+### Custom Formatter
 
-Furthermore, you can use custom prefix/postfix as below.
+Furthermore, you can use custom formatter as below.
 
 ```javascript
-var console = require('node-custom-console')('module1', prefix: function(tag, severity){
-    return tag + "-" + severity;
-  }, postfix: function(tag, severity){
-    return ";"
-  });
+var console = require('node-custom-console')('module1', formatter: function() {
+  var args = [];
+  args.push(this.tag + '-' + this.severity);
+  args = args.concat([].slice.call(arguments, 0));
+  args.push(';');
+  return args;
+});
 console.info('foo', 'bar')
-// > chai-info foo bar;
+// > chai-info foo bar ;
 ```
 
 ## Contributing
