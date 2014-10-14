@@ -34,6 +34,7 @@ gulp.task 'coverage', (done) ->
       debugDirectory: 'debug'
     .pipe mocha()
     .pipe cover.report
+      outFile: 'coverage.html'
       reporter: 'html'
 
 gulp.task 'coveralls', (done) ->
