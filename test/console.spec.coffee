@@ -133,39 +133,6 @@ describe 'console', ->
           @console[name] 'foo', 'bar'
           expect(@spy).to.have.been.calledWith('foo', 'bar')
 
-  describe "\#init", ->
-    beforeEach ->
-      @sandbox.stub process.env, 'NODE_DEBUG', 'chai'
-      @console = utilsConsole('chai', console: Console)
-
-    it 'initializes the debug settings', ->
-      expect(@console.enabled).to.be.eq true
-      expect(@console.level).to.be.eq 0
-
-    describe 'debug target change', ->
-      beforeEach ->
-        @sandbox.stub process.env, 'NODE_DEBUG', 'foo'
-
-      it 'reinitializes the debug settings', ->
-        expect(@console.enabled).to.be.eq true
-        expect(@console.level).to.be.eq 0
-
-        @console.init()
-        expect(@console.enabled).to.be.eq false
-        expect(@console.level).to.be.eq 0
-
-    describe 'debug level change', ->
-      beforeEach ->
-        @sandbox.stub process.env, 'NODE_DEBUG', 'chai:log'
-
-      it 'reinitializes the debug settings', ->
-        expect(@console.enabled).to.be.eq true
-        expect(@console.level).to.be.eq 0
-
-        @console.init()
-        expect(@console.enabled).to.be.eq true
-        expect(@console.level).to.be.eq 1
-
   describe "\#formatter", ->
     beforeEach ->
       formatter = (args...) ->
@@ -180,3 +147,19 @@ describe 'console', ->
       @console.info 'foo', 'bar'
       expect(@spy).to.have.been.calledWith("chai-info", 'foo', 'bar', ';')
 
+  describe "\#enabled", ->
+    beforeEach ->
+      @sandbox.stub process.env, 'NODE_DEBUG', 'chai'
+      @console = utilsConsole('chai', console: Console)
+
+    describe 'debug target change', ->
+      it 'changes the debug settings', ->
+        expect(@console.enabled('log')).to.be.eq true
+        @sandbox.stub process.env, 'NODE_DEBUG', 'foo'
+        expect(@console.enabled('log')).to.be.eq false
+
+    describe 'debug level change', ->
+      it 'reinitializes the debug settings', ->
+        expect(@console.enabled('log')).to.be.eq true
+        @sandbox.stub process.env, 'NODE_DEBUG', 'chai:info'
+        expect(@console.enabled('log')).to.be.eq false

@@ -17,16 +17,13 @@ class CustomConsole
     @console = options.console || require 'console'
     @tag = tag
 
-    @init()
+    @regexp = new RegExp("\\*(\\:(.+))?|\\b#{@tag}(\\:(.+))?\\b")
 
     @formatter = options.formatter if options.formatter
 
-  init: ->
+  enabled: (severity) ->
     debug = process.env.NODE_DEBUG || ''
-    match = debug.match new RegExp("\\*(\\:(.+))?|\\b#{@tag}(\\:(.+))?\\b")
-    @enabled = !!match
-    match ||= []
-    @level = CustomConsole.getDebugLevel(match[2] || match[4])
+    !!((match = debug.match @regexp) and CustomConsole.getDebugLevel(severity) >= CustomConsole.getDebugLevel(match[2] || match[4]))
 
   formatter: (args...) ->
     time = (new Date()).toISOString()
@@ -34,7 +31,8 @@ class CustomConsole
 
   template = (severity) ->
     (args...) ->
-      return unless @enabled && CustomConsole.getDebugLevel(severity) >= @level
+      return unless @enabled(severity)
+
       _args = do (@tag, @formatter) ->
         @severity = severity
         @formatter args...
